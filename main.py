@@ -1,11 +1,20 @@
-from core.xss import generate_xss_payloads
+from core.sqli import generate_sqli_payloads
 
 def main():
-    print("=== XSS Payload Generator ===")
-    param = input("Enter the parameter name (e.g., search): ").strip()
-    payloads = generate_xss_payloads(param)
+    print("=== Payload Generator ===")
+    attack_type = input("Select type (xss / sqli): ").strip().lower()
+    param = input("Enter the parameter name (e.g., username): ").strip()
 
-    print("\nGenerated XSS Payloads:\n")
+    if attack_type == "xss":
+        from core.xss import generate_xss_payloads
+        payloads = generate_xss_payloads(param)
+    elif attack_type == "sqli":
+        payloads = generate_sqli_payloads(param)
+    else:
+        print("[!] Invalid attack type.")
+        return
+
+    print("\nGenerated Payloads:\n")
     for p in payloads:
         print(p)
 
